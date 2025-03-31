@@ -1,6 +1,9 @@
 # Use lightweight Python base
 FROM python:3.11-slim
 
+# Set environment variable for Mistral API Key
+ENV MISTRAL_API_KEY="fVLsPcXstWczO0MOriDzGPzpScdzCGvN"
+
 WORKDIR /app
 
 # Install runtime dependencies
@@ -17,15 +20,11 @@ ENV PATH="/app/venv/bin:$PATH"
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy the .env file (if exists) and ensure it is used
-COPY .env /app/.env
-ENV $(cat /app/.env | xargs)
-
 # Use environment variables
 ENV PYTHONUNBUFFERED=1
 
 # Copy app code
 COPY . .
 
-# Start command (now uses the virtual environment)
-CMD ["uvicorn", "mistral:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start command (uses virtual environment)
+CMD ["uvicorn", "blackbox:app", "--host", "0.0.0.0", "--port", "8000"]
