@@ -12,12 +12,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 import requests
 from typing import Optional, Dict
+from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+load_dotenv()
+
 MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions"
-MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")  # Set in Vercel env vars
+
+# Get API key from environment
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+if not MISTRAL_API_KEY:
+    raise ValueError("Error: MISTRAL_API_KEY is not set in the environment.")
+
 MODEL = "mistral-small-latest"
 
 SYSTEM_PROMPT = """
