@@ -12,6 +12,12 @@ RUN apt-get update && \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the .env file (if exists) and ensure it is used
+COPY .env /app/.env
+
+# Use environment variables
+ENV PYTHONUNBUFFERED=1
+
 # Copy app code
 COPY . .
 
