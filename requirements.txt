@@ -1,0 +1,6 @@
+fastapi>=0.68.0
+mangum>=0.10.0
+python-multipart
+requests
+pdfplumber==0.10.3
+pandas==2.0.3
