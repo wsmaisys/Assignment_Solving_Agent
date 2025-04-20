@@ -32,7 +32,7 @@ def send_request(url, question, file_path=None):
 
 if __name__ == "__main__":
     # Define the API URL
-    url = "http://localhost:8000/submit"
+    url = "https://project-2-vercel-app-llm-agent-1.onrender.com/submit"
 
     # List of questions and corresponding files
     questions_files = [
