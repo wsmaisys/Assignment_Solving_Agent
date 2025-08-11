@@ -6,7 +6,9 @@ import zipfile
 import logging
 import io
 import hashlib
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 import requests
@@ -78,8 +80,18 @@ Always generate **executable** Python code in ```python blocks, following these 
 The file data will be provided as a variable named 'file_data' in the execution context.
 """
 
+
 app = FastAPI()
 handler = Mangum(app)
+
+# Mount static files for serving the frontend
+app.mount("/static", StaticFiles(directory="."), name="static")
+
+# Serve the frontend.html at the root URL
+@app.get("/", response_class=HTMLResponse)
+async def serve_frontend(request: Request):
+    with open("frontend.html", encoding="utf-8") as f:
+        return HTMLResponse(content=f.read(), status_code=200)
 
 app.add_middleware(
     CORSMiddleware,
